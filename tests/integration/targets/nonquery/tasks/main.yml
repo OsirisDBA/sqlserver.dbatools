@@ -1,14 +1,14 @@
 ---
 - name: Var block
   module_defaults:
-    lowlydba.sqlserver.nonquery:
+    sqlserver.dbatools.nonquery:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
   tags: ["query"]
   block:
     - name: Execute a nonquery
-      lowlydba.sqlserver.nonquery:
+      sqlserver.dbatools.nonquery:
         nonquery: "SELECT 1"
         database: "master"
       register: result
@@ -17,7 +17,7 @@
           - result is changed
 
     - name: Execute a nonquery in  checkmode
-      lowlydba.sqlserver.nonquery:
+      sqlserver.dbatools.nonquery:
         nonquery: "SELECT 1"
         database: "master"
       check_mode: true

@@ -4,7 +4,7 @@
     service_account: "NT SERVICE\\MSSQLSERVER"
     property: "msDS-AllowedToDelegateTo"
   module_defaults:
-    lowlydba.sqlserver.spn:
+    sqlserver.dbatools.spn:
       computer: "{{ sqlserver_instance }}"
       service_account: "{{ service_account }}"
   tags: ["spn"]
@@ -13,7 +13,7 @@
     # and with how simple this module is, its not worth the cost
     # to implement a robust solution.
     # - name: Set SPN
-    #   lowlydba.sqlserver.spn:
+    #   sqlserver.dbatools.spn:
     #   register: result
     # - assert:
     #     that:
@@ -25,7 +25,7 @@
     #       - result is changed
 
     - name: Remove spn
-      lowlydba.sqlserver.spn:
+      sqlserver.dbatools.spn:
         state: "absent"
       register: result
     - assert:

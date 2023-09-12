@@ -6,14 +6,14 @@
     password_must_change: false
     enabled: true
   module_defaults:
-    lowlydba.sqlserver.sa:
+    sqlserver.dbatools.sa:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
   tags: ["sqlserver.login"]
   block:
     - name: Configure sa
-      lowlydba.sqlserver.sa:
+      sqlserver.dbatools.sa:
         password_expiration_enabled: "{{ password_expiration_enabled }}"
         password_policy_enforced: "{{ password_policy_enforced }}"
         password_must_change: "{{ password_must_change }}"
@@ -31,7 +31,7 @@
           - result.data.MustChangePassword is false
 
     - name: Disable in checkmode
-      lowlydba.sqlserver.sa:
+      sqlserver.dbatools.sa:
         new_name: UpDawg
         password: "WhatsUpDawg?"
         enabled: false
@@ -45,7 +45,7 @@
           - result is changed
 
     - name: Verify checkmode works
-      lowlydba.sqlserver.sa:
+      sqlserver.dbatools.sa:
         enabled: "{{ enabled }}"
       register: result
     - assert:
@@ -62,5 +62,5 @@
   # Cleanup
   always:
     - name: Enable sa
-      lowlydba.sqlserver.sa:
+      sqlserver.dbatools.sa:
         enabled: true

@@ -3,7 +3,7 @@
   vars:
     category_name: "Integration Tests"
   module_defaults:
-    lowlydba.sqlserver.agent_job_category:
+    sqlserver.dbatools.agent_job_category:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -11,7 +11,7 @@
   tags: ["agent_job_category"]
   block:
     - name: Create job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
       register: result
     - assert:
         that:
@@ -25,14 +25,14 @@
           - result.data.JobCount == 0
 
     - name: Create existing job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
       register: result
     - assert:
         that:
           - result is not changed
 
     - name: Remove job category in check mode
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
         state: absent
       register: result
       check_mode: true
@@ -41,7 +41,7 @@
           - result is changed
 
     - name: Remove job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
         state: absent
       register: result
     - assert:
@@ -49,7 +49,7 @@
           - result is changed
 
     - name: Create new job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
       register: result
     - assert:
         that:
@@ -65,5 +65,5 @@
 
   always:
     - name: Remove job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
         state: absent

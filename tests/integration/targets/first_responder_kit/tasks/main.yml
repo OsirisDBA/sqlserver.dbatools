@@ -4,7 +4,7 @@
     target_database: "master"
     branch: "main"
   module_defaults:
-    lowlydba.sqlserver.first_responder_kit:
+    sqlserver.dbatools.first_responder_kit:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -14,7 +14,7 @@
   tags: ["first_responder_kit"]
   block:
     - name: Install first_responder_kit
-      lowlydba.sqlserver.first_responder_kit:
+      sqlserver.dbatools.first_responder_kit:
       register: result
     - assert:
         that:
@@ -26,7 +26,7 @@
           - result is changed
 
     - name: Uninstall first_responder_kit
-      lowlydba.sqlserver.first_responder_kit:
+      sqlserver.dbatools.first_responder_kit:
         only_script: "Uninstall.sql"
       register: result
     - assert:

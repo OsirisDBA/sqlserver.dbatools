@@ -15,12 +15,12 @@
     start_date_result: "3020-05-25T00:00:00"
     end_date_result: "3020-05-25T00:00:00"
   module_defaults:
-    lowlydba.sqlserver.agent_job:
+    sqlserver.dbatools.agent_job:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
       job: "{{ job_name }}"
-    lowlydba.sqlserver.agent_job_schedule:
+    sqlserver.dbatools.agent_job_schedule:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -37,7 +37,7 @@
   tags: ["agent_job_schedule"]
   block:
     - name: Pre-create agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         force: true
         state: present
       register: result
@@ -47,7 +47,7 @@
           - result.data.Name == "{{ job_name }}"
 
     - name: Create job schedule with force
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         force: true
         state: present
@@ -63,7 +63,7 @@
           - result is changed
 
     - name: Change job schedule & disable
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         start_date: "30210525"
         end_date: "30210525"
@@ -81,7 +81,7 @@
           - result is changed
 
     - name: Enable job schedule
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         enabled: true
         state: present
@@ -95,7 +95,7 @@
           - result is changed
 
     - name: No change
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         enabled: true
         state: present
@@ -105,7 +105,7 @@
           - result is not changed
 
     - name: Remove job schedule
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         force: true
         state: absent
@@ -115,7 +115,7 @@
           - result is changed
 
     - name: Remove non-existent job schedule
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         force: true
         state: absent
@@ -125,7 +125,7 @@
           - result is not changed
 
     - name: Create job schedule in checkmode
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         start_date: "30210526"
         end_date: "30210526"
@@ -138,7 +138,7 @@
           - result is changed
 
     - name: Verify unchanged in checkmode
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         start_date: "30210526"
         end_date: "30210526"
@@ -159,12 +159,12 @@
   always:
     # Also cleans up associated schedules
     - name: Remove test agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         force: true
         state: absent
 
     - name: Remove job schedule
-      lowlydba.sqlserver.agent_job_schedule:
+      sqlserver.dbatools.agent_job_schedule:
         schedule: "{{ forced_schedule_name }}"
         force: true
         state: absent

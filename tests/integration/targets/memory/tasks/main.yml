@@ -3,14 +3,14 @@
   vars:
     max_memory_over_9000: 99999
   module_defaults:
-    lowlydba.sqlserver.memory:
+    sqlserver.dbatools.memory:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
   tags: ["memory"]
   block:
     - name: Set max memory
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: "{{ max_memory_over_9000 }}"
       register: result
     - assert:
@@ -21,7 +21,7 @@
           - result.data.MaxValue == {{ max_memory_over_9000 }}
 
     - name: Don't change max memory
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: "{{ max_memory_over_9000 }}"
       register: result
     - assert:
@@ -29,7 +29,7 @@
           - result is not changed
 
     - name: Dynamically set max memory
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: 0
       register: result
     - assert:
@@ -39,7 +39,7 @@
           - result.data.Total  > result.data.MaxValue
 
     - name: No change with dynamic memory
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: 0
       register: result
     - assert:
@@ -47,7 +47,7 @@
           - result is not changed
 
     - name: Set max memory in checkmode
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: "{{ max_memory_over_9000 }}"
       check_mode: true
       register: result
@@ -56,7 +56,7 @@
           - result is changed
 
     - name: Verify unchanged checkmode max memory
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: "{{ max_memory_over_9000 }}"
       register: result
     - assert:
@@ -67,5 +67,5 @@
 
   always:
     - name: Dynamically set max memory
-      lowlydba.sqlserver.memory:
+      sqlserver.dbatools.memory:
         max: 0

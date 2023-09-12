@@ -4,7 +4,7 @@
     target_database: "master"
     branch: "development"
   module_defaults:
-    lowlydba.sqlserver.dba_multitool:
+    sqlserver.dbatools.dba_multitool:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -13,7 +13,7 @@
   tags: ["dba_multitool"]
   block:
     - name: Install dba_multitool
-      lowlydba.sqlserver.dba_multitool:
+      sqlserver.dbatools.dba_multitool:
       register: result
     - assert:
         that:
@@ -25,7 +25,7 @@
           - result is changed
 
     - name: Update dba_multitool
-      lowlydba.sqlserver.dba_multitool:
+      sqlserver.dbatools.dba_multitool:
       register: result
     - assert:
         that:

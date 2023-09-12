@@ -15,7 +15,7 @@
     failure_condition_level: "OnServerDown"
     database: "ag-test-db"
   module_defaults:
-    lowlydba.sqlserver.availability_group:
+    sqlserver.dbatools.availability_group:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -32,14 +32,14 @@
       force: "{{ force }}"
       allow_null_backup: true
       failure_condition_level: "{{ failure_condition_level }}"
-    lowlydba.sqlserver.database:
+    sqlserver.dbatools.database:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
   tags: ["availability_group"]
   block:
     - name: Enable hadr
-      lowlydba.sqlserver.hadr:
+      sqlserver.dbatools.hadr:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
@@ -47,11 +47,11 @@
         force: true
 
     - name: Create a database
-      lowlydba.sqlserver.database:
+      sqlserver.dbatools.database:
         database: "{{ database }}"
 
     - name: Create availability group
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
       register: result
     - assert:
         that:
@@ -65,7 +65,7 @@
           - result is changed
 
     - name: Change availability group
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
         dtc_support_enabled: true
         all_ags: true
         failure_condition_level: "OnServerUnresponsive"
@@ -82,7 +82,7 @@
           - result is changed
 
     - name: Drop availability group in check mode
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
         state: absent
       check_mode: true
       register: result
@@ -91,7 +91,7 @@
           - result is changed
 
     - name: Drop availability group
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
         state: absent
       register: result
     - assert:
@@ -100,10 +100,10 @@
 
   always:
     - name: Drop availability group
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
         state: absent
 
     - name: Drop database
-      lowlydba.sqlserver.database:
+      sqlserver.dbatools.database:
         database: "{{ database }}"
         state: absent

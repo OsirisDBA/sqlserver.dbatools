@@ -6,7 +6,7 @@
     description: "This test is not a test."
     enabled: true
   module_defaults:
-    lowlydba.sqlserver.agent_job:
+    sqlserver.dbatools.agent_job:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -20,14 +20,14 @@
     # SQL Agent / SMO has delays on returning new data sometimes, and is worse on CI runners -
     # so explicitly pre-create the category to make sure we get timely & accurate results later
     - name: Prep agent job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
         category: "{{ category_name }}"
 
     - name: Create agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
       register: result
     - assert:
         that:
@@ -39,7 +39,7 @@
           - result.data.HasSchedule is false
 
     - name: Create agent job step one
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
@@ -48,7 +48,7 @@
         step_id: 1
 
     - name: Create agent job step two
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
@@ -57,7 +57,7 @@
         step_id: 2
 
     - name: Set start job step id
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
@@ -70,7 +70,7 @@
           - result is changed
 
     - name: No change
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
@@ -82,7 +82,7 @@
           - result is not changed
 
     - name: Remove agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         state: "absent"
       register: result
     - assert:
@@ -94,7 +94,7 @@
           - result.data.Status == "Dropped"
 
     - name: Create new agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
       register: result
     - assert:
         that:
@@ -106,7 +106,7 @@
           - result is changed
 
     - name: Change agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         owner_login: "sa"
         enabled: false
       register: result
@@ -121,7 +121,7 @@
           - result is changed
 
     - name: Change agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         enabled: true
       register: result
     - assert:
@@ -134,11 +134,11 @@
 
   always:
     - name: Cleanup agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         state: "absent"
 
     - name: Cleanup agent job category
-      lowlydba.sqlserver.agent_job_category:
+      sqlserver.dbatools.agent_job_category:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"

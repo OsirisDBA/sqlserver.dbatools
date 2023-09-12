@@ -7,11 +7,11 @@
     job_step2: "Two, just wanna be with you"
     job_step3: "Three, girl, it's plain to see"
   module_defaults:
-    lowlydba.sqlserver.agent_job:
+    sqlserver.dbatools.agent_job:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
-    lowlydba.sqlserver.agent_job_step:
+    sqlserver.dbatools.agent_job_step:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -19,7 +19,7 @@
   tags: ["agent_job_step"]
   block:
     - name: Create agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         job: "{{ job_name }}"
         force: true
       register: result
@@ -28,7 +28,7 @@
           - result.data.Name == "{{ job_name }}"
 
     - name: Create agent job step one
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step1 }}"
         step_id: 1
       register: result
@@ -42,7 +42,7 @@
           - result is changed
 
     - name: Create agent job step two in checkmode
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step2 }}"
         step_id: 2
       check_mode: true
@@ -52,7 +52,7 @@
           - result is changed
 
     - name: Verify create agent job step two in checkmode works
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step2 }}"
         step_id: 2
       register: result
@@ -66,7 +66,7 @@
           - result is changed
 
     - name: Create agent job step three
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step3 }}"
         step_id: 3
       register: result
@@ -79,7 +79,7 @@
           - result.data.State == "Existing"
 
     - name: Create duplicate agent job step
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step3 }}"
         step_id: 4
       register: result
@@ -89,7 +89,7 @@
           - result is not changed
 
     - name: Change agent job step in checkmode
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step3 }}"
         step_id: 3
         database: "model"
@@ -100,7 +100,7 @@
           - result is changed
 
     - name: Verify change agent job step in checkmode works
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step3 }}"
         step_id: 3
         database: "model"
@@ -115,7 +115,7 @@
           - result is changed
 
     - name: Verify no change works
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step3 }}"
         step_id: 3
         database: "model"
@@ -130,7 +130,7 @@
           - result is not changed
 
     - name: Remove agent job step
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_name: "{{ job_step1 }}"
         state: "absent"
       register: result
@@ -139,7 +139,7 @@
           - result is changed
 
     - name: Remove agent job step in checkmode
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_id: 2
         state: "absent"
       check_mode: true
@@ -149,7 +149,7 @@
           - result is changed
 
     - name: Verify remove agent job step in checkmode works
-      lowlydba.sqlserver.agent_job_step:
+      sqlserver.dbatools.agent_job_step:
         step_id: 2
         state: "absent"
       register: result
@@ -159,7 +159,7 @@
 
   always:
     - name: Cleanup agent job
-      lowlydba.sqlserver.agent_job:
+      sqlserver.dbatools.agent_job:
         job: "{{ job_name }}"
         state: "absent"
       register: result

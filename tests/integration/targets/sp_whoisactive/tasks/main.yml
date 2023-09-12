@@ -3,7 +3,7 @@
   vars:
     target_database: "master"
   module_defaults:
-    lowlydba.sqlserver.sp_whoisactive:
+    sqlserver.dbatools.sp_whoisactive:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -11,7 +11,7 @@
   tags: ["sp_whoisactive"]
   block:
     - name: Install sp_whoisactive
-      lowlydba.sqlserver.sp_whoisactive:
+      sqlserver.dbatools.sp_whoisactive:
       register: result
     - assert:
         that:
@@ -25,7 +25,7 @@
           - result is changed
 
     - name: Update sp_whoisactive
-      lowlydba.sqlserver.sp_whoisactive:
+      sqlserver.dbatools.sp_whoisactive:
       register: result
     - assert:
         that:
@@ -38,7 +38,7 @@
           - result is changed
 
     - name: Update sp_whoisactive in checkmode
-      lowlydba.sqlserver.sp_whoisactive:
+      sqlserver.dbatools.sp_whoisactive:
       register: result
       check_mode: true
     - assert:

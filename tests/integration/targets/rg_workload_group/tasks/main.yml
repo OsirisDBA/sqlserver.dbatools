@@ -10,7 +10,7 @@
     request_mem_grant_timeout_sec: 420
     importance: "Medium"
   module_defaults:
-    lowlydba.sqlserver.rg_workload_group:
+    sqlserver.dbatools.rg_workload_group:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -22,7 +22,7 @@
       request_mem_grant_timeout_sec: "{{ request_mem_grant_timeout_sec }}"
       importance: "{{ importance }}"
       max_dop: "{{ max_dop }}"
-    lowlydba.sqlserver.rg_resource_pool:
+    sqlserver.dbatools.rg_resource_pool:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -31,11 +31,11 @@
   tags: ["rg_workload_group"]
   block:
     - name: Create resource pool
-      lowlydba.sqlserver.rg_resource_pool:
+      sqlserver.dbatools.rg_resource_pool:
         state: "present"
 
     - name: Create workload group
-      lowlydba.sqlserver.rg_workload_group:
+      sqlserver.dbatools.rg_workload_group:
         state: "present"
       register: result
     - assert:
@@ -52,7 +52,7 @@
           - result.data.RequestMaximumMemoryGrantPercentage == {{ request_max_mem_grant_perc }}
 
     - name: Modify workload group
-      lowlydba.sqlserver.rg_workload_group:
+      sqlserver.dbatools.rg_workload_group:
         group_max_requests: 4
         state: "present"
       register: result
@@ -70,7 +70,7 @@
           - result.data.RequestMaximumMemoryGrantPercentage == {{ request_max_mem_grant_perc }}
 
     - name: Drop workload group in checkmode
-      lowlydba.sqlserver.rg_workload_group:
+      sqlserver.dbatools.rg_workload_group:
         state: "absent"
       register: result
       check_mode: true
@@ -79,7 +79,7 @@
           - result is changed
 
     - name: Drop workload group
-      lowlydba.sqlserver.rg_workload_group:
+      sqlserver.dbatools.rg_workload_group:
         state: "absent"
       register: result
     - assert:
@@ -93,10 +93,10 @@
 
   always:
     - name: Drop workload group
-      lowlydba.sqlserver.rg_workload_group:
+      sqlserver.dbatools.rg_workload_group:
         state: "absent"
 
     - name: Drop resource pool
-      lowlydba.sqlserver.rg_resource_pool:
+      sqlserver.dbatools.rg_resource_pool:
         resource_pool: "{{ resource_pool }}"
         state: "absent"

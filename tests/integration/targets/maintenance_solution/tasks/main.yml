@@ -1,7 +1,7 @@
 ---
 - name: Var block
   module_defaults:
-    lowlydba.sqlserver.maintenance_solution:
+    sqlserver.dbatools.maintenance_solution:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -11,7 +11,7 @@
   tags: ["maintenance_solution"]
   block:
     - name: Install Maintenance Solution
-      lowlydba.sqlserver.maintenance_solution:
+      sqlserver.dbatools.maintenance_solution:
         database: master
         replace_existing: true
       register: result
@@ -21,7 +21,7 @@
           - result is changed
 
     - name: Install Maintenance Solution if not already present
-      lowlydba.sqlserver.maintenance_solution:
+      sqlserver.dbatools.maintenance_solution:
         database: master
       register: result
     - assert:

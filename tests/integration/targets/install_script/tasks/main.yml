@@ -4,7 +4,7 @@
     path: "{{ role_path }}/files/"
     database_name: "lowlydba-migration-test"
   module_defaults:
-    lowlydba.sqlserver.install_script:
+    sqlserver.dbatools.install_script:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -18,7 +18,7 @@
 
   block:
     - name: Install a script in no log mode
-      lowlydba.sqlserver.install_script:
+      sqlserver.dbatools.install_script:
         no_log_version: true
       register: result
     - assert:
@@ -28,7 +28,7 @@
           - result is changed
 
     - name: Install a script in checkmode
-      lowlydba.sqlserver.install_script:
+      sqlserver.dbatools.install_script:
       register: result
       check_mode: true
     - assert:
@@ -36,7 +36,7 @@
           - result is changed
 
     - name: Install a script
-      lowlydba.sqlserver.install_script:
+      sqlserver.dbatools.install_script:
       register: result
     - assert:
         that:
@@ -45,7 +45,7 @@
           - result is changed
 
     - name: Install same script
-      lowlydba.sqlserver.install_script:
+      sqlserver.dbatools.install_script:
       register: result
     - assert:
         that:
@@ -53,7 +53,7 @@
 
   always:
     - name: Cleanup database
-      lowlydba.sqlserver.database:
+      sqlserver.dbatools.database:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"

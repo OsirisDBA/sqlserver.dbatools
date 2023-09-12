@@ -15,7 +15,7 @@
     failure_condition_level: "OnServerDown"
     session_timeout: 15
   module_defaults:
-    lowlydba.sqlserver.availability_group:
+    sqlserver.dbatools.availability_group:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -31,7 +31,7 @@
       basic_availability_group: "{{ basic_availability_group }}"
       force: "{{ force }}"
       failure_condition_level: "{{ failure_condition_level }}"
-    lowlydba.sqlserver.ag_replica:
+    sqlserver.dbatools.ag_replica:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -45,7 +45,7 @@
   tags: ["ag_replica"]
   block:
     - name: Enable hadr
-      lowlydba.sqlserver.hadr:
+      sqlserver.dbatools.hadr:
         sql_instance: "{{ sqlserver_instance }}"
         sql_username: "{{ sqlserver_username }}"
         sql_password: "{{ sqlserver_password }}"
@@ -53,11 +53,11 @@
         force: true
 
     - name: Create availability group
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
       register: ag
 
     - name: Set replica
-      lowlydba.sqlserver.ag_replica:
+      sqlserver.dbatools.ag_replica:
         session_timeout: 20
         endpoint_url: "TCP://{{ ag.data.SqlInstance }}:5022"
         read_only_routing_list: "{{ ag.data.SqlInstance }}"
@@ -77,5 +77,5 @@
 
   always:
     - name: Drop availability group
-      lowlydba.sqlserver.availability_group:
+      sqlserver.dbatools.availability_group:
         state: absent

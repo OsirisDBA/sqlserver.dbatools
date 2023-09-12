@@ -3,7 +3,7 @@
   vars:
     trace_flag: "999"
   module_defaults:
-    lowlydba.sqlserver.traceflag:
+    sqlserver.dbatools.traceflag:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
@@ -11,7 +11,7 @@
   tags: ["traceflag"]
   block:
     - name: Set a traceflag
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: true
       register: result
     - assert:
@@ -21,7 +21,7 @@
           - result.data.TraceFlag == {{ trace_flag }}
 
     - name: Enable an enabled traceflag
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: true
       register: result
     - assert:
@@ -32,7 +32,7 @@
           - result is not changed
 
     - name: Disable a traceflag
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: false
       register: result
     - assert:
@@ -43,7 +43,7 @@
           - result is changed
 
     - name: Disable a disabled traceflag
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: false
       register: result
     - assert:
@@ -54,7 +54,7 @@
           - result is not changed
 
     - name: Enable a traceflag
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: true
       register: result
     - assert:
@@ -65,7 +65,7 @@
           - result is changed
 
     - name: Disable a traceflag in checkmode
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: false
       register: result
       check_mode: true
@@ -74,7 +74,7 @@
           - result is changed
 
     - name: Verify unchanged in checkmode
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: false
       register: result
     - assert:
@@ -86,5 +86,5 @@
 
   always:
     - name: Disable a traceflag
-      lowlydba.sqlserver.traceflag:
+      sqlserver.dbatools.traceflag:
         enabled: false

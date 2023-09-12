@@ -1,19 +1,19 @@
 ---
 - name: Var block
   module_defaults:
-    lowlydba.sqlserver.resource_governor:
+    sqlserver.dbatools.resource_governor:
       sql_instance: "{{ sqlserver_instance }}"
       sql_username: "{{ sqlserver_username }}"
       sql_password: "{{ sqlserver_password }}"
   tags: ["resource_governor"]
   block:
     - name: Enable resource_governor
-      lowlydba.sqlserver.resource_governor:
+      sqlserver.dbatools.resource_governor:
         enabled: true
       register: result
 
     - name: Disable resource_governor
-      lowlydba.sqlserver.resource_governor:
+      sqlserver.dbatools.resource_governor:
         enabled: false
       register: result
     - assert:
@@ -25,7 +25,7 @@
           - result is changed
 
     - name: Enable resource_governor
-      lowlydba.sqlserver.resource_governor:
+      sqlserver.dbatools.resource_governor:
         enabled: true
       register: result
     - assert:
