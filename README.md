@@ -1,9 +1,9 @@
-# lowlydba.sqlserver Collection for Ansible
+# sqlserver.dbatools Collection for Ansible
 
-![GPL v3](https://img.shields.io/github/license/lowlydba/lowlydba.sqlserver)
-[![CI](https://github.com/lowlydba/lowlydba.sqlserver/actions/workflows/ansible-test.yml/badge.svg)](https://github.com/lowlydba/lowlydba.sqlserver/actions/workflows/ansible-test.yml)
-[![CI (Windows)](https://github.com/lowlydba/lowlydba.sqlserver/actions/workflows/ansible-test-windows.yml/badge.svg)](https://github.com/lowlydba/lowlydba.sqlserver/actions/workflows/ansible-test-windows.yml)
-[![codecov](https://codecov.io/gh/lowlydba/lowlydba.sqlserver/branch/main/graph/badge.svg?token=3TW3VBCn9N)](https://codecov.io/gh/lowlydba/lowlydba.sqlserver)
+![GPL v3](https://img.shields.io/github/license/OsirisDBA/sqlserver.dbatools)
+[![CI](https://github.com/OsirisDBA/sqlserver.dbatools/actions/workflows/ansible-test.yml/badge.svg)](https://github.com/OsirisDBA/sqlserver.dbatools/actions/workflows/ansible-test.yml)
+[![CI (Windows)](https://github.com/OsirisDBA/sqlserver.dbatools/actions/workflows/ansible-test-windows.yml/badge.svg)](https://github.com/OsirisDBA/sqlserver.dbatools/actions/workflows/ansible-test-windows.yml)
+[![codecov](https://codecov.io/gh/OsirisDBA/sqlserver.dbatools/branch/main/graph/badge.svg?token=3TW3VBCn9N)](https://codecov.io/gh/OsirisDBA/sqlserver.dbatools)
 
 - [Modules](#modules)
 - [Code of Conduct](#code-of-conduct)
@@ -19,9 +19,6 @@
 
 ## Modules
 
-For the most up to date information, see the [plugin section](https://lowlydba.github.io/lowlydba.sqlserver/branch/main/collections/lowlydba/sqlserver/index.html#plugins-in-lowlydba-sqlserver) of the documentation for this collection (<https://lowlydba.github.io/lowlydba.sqlserver>).
-
-For the current version contained in the Ansible Community General Collection, see the [official documentation](https://docs.ansible.com/ansible/latest/collections/lowlydba/sqlserver/index.html).
 
 ## Code of Conduct
 
@@ -73,7 +70,6 @@ To learn how to maintain / become a maintainer of this collection, refer to the 
 
 - PowerShell modules
   - [dbatools][dbatools] >= 2.0.0
-  - [dbops][dbops] >= 0.8.0
 
 ## Using this collection
 
@@ -82,7 +78,7 @@ To learn how to maintain / become a maintainer of this collection, refer to the 
 Before using this collection, you need to install it with the Ansible Galaxy command-line tool:
 
 ```bash
-ansible-galaxy collection install lowlydba.sqlserver
+ansible-galaxy collection install sqlserver.dbatools
 ```
 
 You can also include it in a `requirements.yml` file and install it with `ansible-galaxy collection install -r requirements.yml`, using the format:
@@ -90,19 +86,19 @@ You can also include it in a `requirements.yml` file and install it with `ansibl
 ```yaml
 ---
 collections:
-  - name: lowlydba.sqlserver
+  - name: sqlserver.dbatools
 ```
 
 Note that if you install the collection from Ansible Galaxy, it will not be upgraded automatically when you upgrade the `ansible` package. To upgrade the collection to the latest available version, run the following command:
 
 ```bash
-ansible-galaxy collection install lowlydba.sqlserver --upgrade
+ansible-galaxy collection install sqlserver.dbatools --upgrade
 ```
 
 You can also install a specific version of the collection, for example, if you need to downgrade when something is broken in the latest version (please report an issue in this repository). Use the following syntax to install version `0.1.0`:
 
 ```bash
-ansible-galaxy collection install lowlydba.sqlserver:==0.1.0
+ansible-galaxy collection install sqlserver.dbatools:==0.1.0
 ```
 
 See [Ansible Using collections](https://docs.ansible.com/ansible/devel/user_guide/collections_using.html) for more details.
@@ -111,7 +107,7 @@ See [Ansible Using collections](https://docs.ansible.com/ansible/devel/user_guid
 
 ### Release notes
 
-See the [changelog](https://github.com/lowlydba/lowlydba.sqlserver/tree/main/CHANGELOG.rst).
+See the [changelog](https://github.com/OsirisDBA/sqlserver.dbatools/tree/main/CHANGELOG.rst).
 
 ### Next Release
 
@@ -125,7 +121,7 @@ No major release planned currently.
 
 ### Versioning
 
-This project adheres to [semantic versioning](https://semver.org/) as tracked in [`galaxy.yml`](https://github.com/lowlydba/lowlydba.sqlserver/blob/main/galaxy.yml).
+This project adheres to [semantic versioning](https://semver.org/) as tracked in [`galaxy.yml`](https://github.com/OsirisDBA/sqlserver.dbatools/blob/main/galaxy.yml).
 
 ### Deprecation
 
@@ -135,4 +131,3 @@ This project adheres to [semantic versioning](https://semver.org/) as tracked in
 
 <!-- Link shortcuts -->
 [dbatools]: https://dbatools.io
-[dbops]: https://github.com/dataplat/dbops
