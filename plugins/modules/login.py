@@ -61,6 +61,20 @@ options:
     type: str
     required: false
     version_added: '2.1.0'
+  password_reset:
+    description:
+      - If the login exists and I(password) is set, the password will be reset.
+    type: bool
+    default: true
+    required: false
+    version_added: '2.2.0'
+  password_hashed:
+    description:
+      - The value for I(password) contains a hashed password.
+    type: bool
+    default: false
+    required: false
+    version_added: '2.2.0'
 author: "John McCall (@lowlydba)"
 notes:
   - Module will always return changed if a password is supplied.

@@ -22,6 +22,8 @@ $spec = @{
         password_policy_enforced = @{type = 'bool'; required = $false }
         password_expiration_enabled = @{type = 'bool'; required = $false }
         sid = @{type = 'str'; required = $false }
+        password_reset = @{type = 'bool'; required = $false }
+        password_hashed = @{type = 'bool'; required = $false }
         state = @{type = 'str'; required = $false; default = 'present'; choices = @('present', 'absent') }
     }
 }
@@ -29,15 +31,24 @@ $spec = @{
 $module = [Ansible.Basic.AnsibleModule]::Create($args, $spec, @(Get-LowlyDbaSqlServerAuthSpec))
 $sqlInstance, $sqlCredential = Get-SqlCredential -Module $module
 $login = $module.Params.login
+[nullable[bool]]$password_hashed = $module.Params.password_hashed
+
 if ($null -ne $module.Params.password) {
+    if ($module.Params.password_hashed -eq $true){
+        $secPassword = $module.Params.password
+    }
+    else {
     $secPassword = ConvertTo-SecureString -String $module.Params.password -AsPlainText -Force
 }
+}
+
 $enabled = $module.Params.enabled
 $defaultDatabase = $module.Params.default_database
 $language = $module.Params.language
 [nullable[bool]]$passwordMustChange = $module.Params.password_must_change
 [nullable[bool]]$passwordExpirationEnabled = $module.Params.password_expiration_enabled
 [nullable[bool]]$passwordPolicyEnforced = $module.Params.password_policy_enforced
+[nullable[bool]]$password_reset = $module.Params.password_reset
 $sid = $module.Params.sid
 $state = $module.Params.state
 $checkMode = $module.CheckMode
@@ -97,7 +108,12 @@ try {
             }
         }
         if ($null -ne $secPassword) {
+            if ($password_hashed -eq $true) {
+                $setLoginSplat.add("HashedPassword", $secPassword)
+            }
+            else {
             $setLoginSplat.add("SecurePassword", $secPassword)
+        }
         }
 
         # Login already exists
@@ -110,8 +126,22 @@ try {
                 $disabled = $false
                 $setLoginSplat.add("Enable", $true)
             }
+            if ($password_reset -eq $false) {
+                if ( $setLoginSplat.ContainsKey("SecurePassword") ) {
+                $setLoginSplat.Remove("SecurePassword")
+            }
+
+                if ( $setLoginSplat.ContainsKey("HashedPassword") ) {
+                    $setLoginSplat.Remove("HashedPassword")
+                }
+            } elseif ( $null -ne $secPassword ) {
+                $changed = $true
+            }
+            if ($disabled -ne $existingLogin.IsDisabled) {
+                $changed = $true
+            }
             # Login needs to be modified
-            if (($changed -eq $true) -or ($disabled -ne $existingLogin.IsDisabled) -or ($secPassword)) {
+            if ($changed -eq $true) {
                 $output = Set-DbaLogin @setLoginSplat
                 $module.result.changed = $true
             }
