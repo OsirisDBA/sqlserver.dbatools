@@ -22,8 +22,8 @@ $spec = @{
         password_policy_enforced = @{type = 'bool'; required = $false }
         password_expiration_enabled = @{type = 'bool'; required = $false }
         sid = @{type = 'str'; required = $false }
-        password_reset = @{type = 'bool'; required = $false }
-        password_hashed = @{type = 'bool'; required = $false }
+        password_reset = @{type = 'bool'; required = $false; default = $true }
+        password_hashed = @{type = 'bool'; required = $false; default = $false }
         state = @{type = 'str'; required = $false; default = 'present'; choices = @('present', 'absent') }
     }
 }
